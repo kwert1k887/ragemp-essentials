@@ -1,0 +1,38 @@
+{
+  "name": "ragemp-essentials",
+  "version": "0.0.1",
+  "description": "Утилиты для упрощения работы с API RAGE:MP",
+  "keywords": [
+    "ragemp",
+    "essentials",
+    "api",
+    "utils",
+    "rpc"
+  ],
+  "homepage": "https://github.com/kwert1k887/ragemp-essentials#readme",
+  "bugs": {
+    "url": "https://github.com/kwert1k887/ragemp-essentials/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kwert1k887/ragemp-essentials.git"
+  },
+  "license": "ISC",
+  "author": "kwert887",
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "node esbuild.config.js"
+  },
+  "dependencies": {
+    "child_process": "^1.0.2",
+    "esbuild": "^0.25.0",
+    "typescript": "^5.7.3"
+  },
+  "devDependencies": {
+    "@ragempcommunity/types-cef": "^2.1.9",
+    "@ragempcommunity/types-client": "^2.1.9",
+    "@ragempcommunity/types-server": "^2.1.9"
+  }
+}
