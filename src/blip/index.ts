@@ -1,55 +1,58 @@
-/** Тип для координат */
-import { Coordinate } from 'types/Coordinate';
-
-/** Опции для создания "Blip" (метки на карте) */
+/**
+ * Опции для создания Blip (метки на карте)
+ */
 export interface BlipOptions {
-    name?: string;          // Имя метки
-    scale?: number;         // Масштаб
-    color?: number;         // Цвет
-    alpha?: number;         // Прозрачность
-    drawDistance?: number;  // Расстояние видимости
-    shortRange?: boolean;   // Малая дальность
-    rotation?: number;      // Угол поворота
-    radius?: number;        // Радиус
+    name?: string;
+    scale?: number;
+    color?: number;
+    alpha?: number;
+    drawDistance?: number;
+    shortRange?: boolean;
+    rotation?: number;
+    radius?: number;
+    dimension?: number;
 }
 
-/** Класс для работы с метками (Blip) на карте */
+/**
+ * Класс для управления метками (Blip) на карте
+ */
 export class Blip {
-    /** Статическая функция для создания метки (или нескольких меток) */
-    static create(sprite: number, pos: Coordinate, options?: BlipOptions): BlipMp;
-    static create(sprite: number, pos: Coordinate[], options?: BlipOptions): BlipMp[];
-
-    /** Основная функция для создания метки или нескольких меток */
-    static create(spriteOrData: number, posOrOptions?: any, maybeOptions?: any): any {
+    /**
+     * Создаёт одну или несколько меток.
+     * @param sprite - Идентификатор спрайта метки
+     * @param position - Координаты метки или массив координат
+     * @param options - Дополнительные настройки метки
+     * @returns Созданную метку, массив меток или null в случае ошибки
+     */
+    static create(sprite: number, position: Vector3 | Vector3[], options?: BlipOptions): BlipMp | BlipMp[] | null {
         try {
-            const sprite: number = spriteOrData;
-            if (Array.isArray(posOrOptions)) {
-                const coords: Coordinate[] = posOrOptions;
-                const options: BlipOptions = maybeOptions || {};
-                return coords.map(coord => Blip.createSingle(sprite, coord, options));  // Создаем несколько меток
-            } else {
-                const coord: Coordinate = posOrOptions;
-                const options: BlipOptions = maybeOptions || {};
-                return Blip.createSingle(sprite, coord, options);  // Создаем одну метку
+            if (Array.isArray(position)) {
+                return position.map(coord => Blip.createSingle(sprite, coord, options));
             }
-        } catch (e) {
-            console.log(e); // Логируем ошибку
+            return Blip.createSingle(sprite, position, options);
+        } catch (error) {
+            console.error("[Blip.create] Ошибка при создании метки:", error);
+            return null;
         }
     }
 
-    /** Функция для создания одной метки */
-    private static createSingle(sprite: number, coord: Coordinate, options: BlipOptions): BlipMp {
-        const { x, y, z, dimension = 0 } = coord;  // Извлекаем координаты и значение dimension
-
-        return mp.blips.new(sprite, new mp.Vector3(x, y, z), {  // Создаем метку на карте с указанными опциями
-            name: options.name || "",
+    /**
+     * Создаёт одну метку.
+     * @param sprite - Идентификатор спрайта метки
+     * @param coord - Координаты метки
+     * @param options - Настройки метки
+     * @returns Созданная метка
+     */
+    private static createSingle(sprite: number, coord: Vector3, options: BlipOptions = {}): BlipMp {
+        return mp.blips.new(sprite, new mp.Vector3(coord.x, coord.y, coord.z), {
+            name: options.name ?? "",
             scale: options.scale ?? 1,
             color: options.color ?? 0,
             alpha: options.alpha ?? 255,
             drawDistance: options.drawDistance ?? 100,
             shortRange: options.shortRange ?? false,
             rotation: options.rotation ?? 0,
-            dimension: dimension
+            dimension: options.dimension ?? 0
         });
     }
 }

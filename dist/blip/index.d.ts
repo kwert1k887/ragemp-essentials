@@ -1,6 +1,6 @@
-/** Тип для координат */
-import { Coordinate } from 'types/Coordinate';
-/** Опции для создания "Blip" (метки на карте) */
+/**
+ * Опции для создания Blip (метки на карте)
+ */
 export interface BlipOptions {
     name?: string;
     scale?: number;
@@ -10,12 +10,26 @@ export interface BlipOptions {
     shortRange?: boolean;
     rotation?: number;
     radius?: number;
+    dimension?: number;
 }
-/** Класс для работы с метками (Blip) на карте */
+/**
+ * Класс для управления метками (Blip) на карте
+ */
 export declare class Blip {
-    /** Статическая функция для создания метки (или нескольких меток) */
-    static create(sprite: number, pos: Coordinate, options?: BlipOptions): BlipMp;
-    static create(sprite: number, pos: Coordinate[], options?: BlipOptions): BlipMp[];
-    /** Функция для создания одной метки */
+    /**
+     * Создаёт одну или несколько меток.
+     * @param sprite - Идентификатор спрайта метки
+     * @param position - Координаты метки или массив координат
+     * @param options - Дополнительные настройки метки
+     * @returns Созданную метку, массив меток или null в случае ошибки
+     */
+    static create(sprite: number, position: Vector3 | Vector3[], options?: BlipOptions): BlipMp | BlipMp[] | null;
+    /**
+     * Создаёт одну метку.
+     * @param sprite - Идентификатор спрайта метки
+     * @param coord - Координаты метки
+     * @param options - Настройки метки
+     * @returns Созданная метка
+     */
     private static createSingle;
 }

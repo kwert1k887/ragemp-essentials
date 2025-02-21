@@ -9,8 +9,8 @@ esbuild.build({
     bundle: true,
     platform: 'node',
     format: 'esm',
-    sourcemap: true,
-    minify: false,
+    sourcemap: false,
+    minify: true,
     tsconfig: './tsconfig.json',
     external: ['@ragempcommunity/types-client', '@ragempcommunity/types-server', '@ragempcommunity/types-cef']
 }).catch(() => process.exit(1));
