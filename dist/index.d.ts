@@ -1,6 +1,12 @@
+import { Event } from './events';
 import { Blip } from './blip';
 import { Marker } from './marker';
 export declare const essentials: {
+    events: {
+        on: typeof Event.on;
+        off: typeof Event.off;
+        emit: typeof Event.emit;
+    };
     blip: {
         create: typeof Blip.create;
     };
