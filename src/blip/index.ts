@@ -83,15 +83,21 @@ export class Blip {
      * @param blinkDuration - Длительность мерцания в миллисекундах
      */
     private static blinkAnimation(blip: BlipMp, blinkDuration: number): void {
-        let startTime = Date.now();
+        const isClient = (typeof mp !== "undefined" && typeof mp.game !== "undefined");
 
+        let startTime = Date.now();
         setInterval(() => {
             const elapsedTime = Date.now() - startTime;
             const progress = (elapsedTime % blinkDuration) / blinkDuration;
-
             const alpha = 255 * (0.5 + 0.5 * Math.sin(progress * Math.PI * 2));
+            const alphaValue = Math.floor(Math.max(50, Math.min(alpha, 255)));
 
-            blip.alpha = Math.max(50, Math.min(alpha, 255));
+
+            if (isClient && blip.handle) {
+                mp.game.ui.setBlipAlpha(blip.handle, alphaValue);
+            } else {
+                blip.alpha = alphaValue;
+            }
 
             if (elapsedTime >= blinkDuration) {
                 startTime = Date.now();
