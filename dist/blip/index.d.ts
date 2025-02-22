@@ -11,6 +11,10 @@ export interface BlipOptions {
     rotation?: number;
     radius?: number;
     dimension?: number;
+    animation?: {
+        type: 'blink';
+        blinkDuration: number;
+    };
 }
 /**
  * Класс для управления метками (Blip) на карте
@@ -32,4 +36,16 @@ export declare class Blip {
      * @returns Созданная метка
      */
     private static createSingle;
+    /**
+     * Применяет анимацию к метке.
+     * @param blip - Метка
+     * @param animation - Параметры анимации
+     */
+    private static applyAnimation;
+    /**
+     * Анимация мерцания для метки.
+     * @param blip - Метка
+     * @param blinkDuration - Длительность мерцания в миллисекундах
+     */
+    private static blinkAnimation;
 }

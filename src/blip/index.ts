@@ -11,6 +11,10 @@ export interface BlipOptions {
     rotation?: number;
     radius?: number;
     dimension?: number;
+    animation?: {
+        type: 'blink';
+        blinkDuration: number;
+    };
 }
 
 /**
@@ -44,7 +48,7 @@ export class Blip {
      * @returns Созданная метка
      */
     private static createSingle(sprite: number, coord: Vector3, options: BlipOptions = {}): BlipMp {
-        return mp.blips.new(sprite, new mp.Vector3(coord.x, coord.y, coord.z), {
+        const blip = mp.blips.new(sprite, new mp.Vector3(coord.x, coord.y, coord.z), {
             name: options.name ?? "",
             scale: options.scale ?? 1,
             color: options.color ?? 0,
@@ -54,5 +58,44 @@ export class Blip {
             rotation: options.rotation ?? 0,
             dimension: options.dimension ?? 0
         });
+
+        if (options.animation) {
+            Blip.applyAnimation(blip, options.animation);
+        }
+
+        return blip;
+    }
+
+    /**
+     * Применяет анимацию к метке.
+     * @param blip - Метка
+     * @param animation - Параметры анимации
+     */
+    private static applyAnimation(blip: BlipMp, animation: { type: string, blinkDuration: number }): void {
+        if (animation.type === 'blink') {
+            Blip.blinkAnimation(blip, animation.blinkDuration);
+        }
+    }
+
+    /**
+     * Анимация мерцания для метки.
+     * @param blip - Метка
+     * @param blinkDuration - Длительность мерцания в миллисекундах
+     */
+    private static blinkAnimation(blip: BlipMp, blinkDuration: number): void {
+        let startTime = Date.now();
+
+        setInterval(() => {
+            const elapsedTime = Date.now() - startTime;
+            const progress = (elapsedTime % blinkDuration) / blinkDuration;
+
+            const alpha = 255 * (0.5 + 0.5 * Math.sin(progress * Math.PI * 2));
+
+            blip.alpha = Math.max(50, Math.min(alpha, 255));
+
+            if (elapsedTime >= blinkDuration) {
+                startTime = Date.now();
+            }
+        }, 16);
     }
 }
