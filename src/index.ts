@@ -1,5 +1,6 @@
 import { Event } from './events';
 import { Blip } from './blip';
+import { Colshape } from './colshape';
 import { Marker } from './marker';
 
 export const essentials = {
@@ -7,6 +8,9 @@ export const essentials = {
         on: Event.on,
         off: Event.off,
         emit: Event.emit,
+    },
+    colshape: {
+        create: Colshape.create
     },
     blip: {
         create: Blip.create,

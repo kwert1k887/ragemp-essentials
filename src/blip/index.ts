@@ -71,7 +71,7 @@ export class Blip {
      * @param blip - Метка
      * @param animation - Параметры анимации
      */
-    private static applyAnimation(blip: BlipMp, animation: { type: string, blinkDuration: number }): void {
+    private static applyAnimation(blip: BlipMp, animation: { type: string, blinkDuration: number }) {
         if (animation.type === 'blink') {
             Blip.blinkAnimation(blip, animation.blinkDuration);
         }
@@ -82,10 +82,9 @@ export class Blip {
      * @param blip - Метка
      * @param blinkDuration - Длительность мерцания в миллисекундах
      */
-    private static blinkAnimation(blip: BlipMp, blinkDuration: number): void {
-        const isClient = (typeof mp !== "undefined" && typeof mp.game !== "undefined");
-
+    private static blinkAnimation(blip: BlipMp, blinkDuration: number) {
         let startTime = Date.now();
+
         setInterval(() => {
             const elapsedTime = Date.now() - startTime;
             const progress = (elapsedTime % blinkDuration) / blinkDuration;
@@ -93,7 +92,7 @@ export class Blip {
             const alphaValue = Math.floor(Math.max(50, Math.min(alpha, 255)));
 
 
-            if (isClient && blip.handle) {
+            if (typeof mp !== "undefined" && typeof mp.game !== "undefined" && blip.handle) {
                 mp.game.ui.setBlipAlpha(blip.handle, alphaValue);
             } else {
                 blip.alpha = alphaValue;
